@@ -1,1 +1,1 @@
-web: gunicorn t1_project.wsgi
+web: gunicorn t2_integracion.wsgi
