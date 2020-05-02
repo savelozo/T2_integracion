@@ -1,6 +1,12 @@
 
-from django.urls import path
+from django.urls import path, include
+from . import views
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register('ingrediente', views.IngredientView)
+#router.register('hamburguesa', views.IngredientView)
 
 urlpatterns = [
-    #path('admin/', admin.site.urls),
+    path('', include(router.urls)),
 ]

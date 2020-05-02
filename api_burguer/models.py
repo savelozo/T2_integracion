@@ -6,6 +6,9 @@ class Ingredient(models.Model):
     name = models.CharField(max_length=256)
     description = models.CharField(max_length=256)
 
+    def __str__(self):
+        return self.name
+
 class Burguer(models.Model):
 
     ingredients = models.ManyToManyField(Ingredient)
@@ -14,3 +17,6 @@ class Burguer(models.Model):
     name = models.CharField(max_length=256)
     description = models.CharField(max_length=256)
     image = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.name
