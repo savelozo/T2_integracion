@@ -25,7 +25,7 @@ SECRET_KEY = 'ujcl@uy*$b!c_=!a++a4t%^st^gll*5qa)lz+w+b3q4hp_jg@s'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['morning-fjord-17437.herokuapp.com']
+ALLOWED_HOSTS = ['morning-fjord-17437.herokuapp.com', 'localhost']
 
 
 # Application definition
