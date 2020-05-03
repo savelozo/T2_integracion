@@ -9,4 +9,4 @@ class IngredientSerializer(serializers.ModelSerializer):
 class BurguerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Burguer
-        fields = ('id', 'nombre', 'descripcion', 'precio', 'ingredientes')
+        fields = ('nombre', 'descripcion', 'precio', 'ingredientes')
