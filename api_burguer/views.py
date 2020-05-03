@@ -19,8 +19,11 @@ def ingredient_list(request):
 
         if serializer.is_valid():
 
-            if request.data['nombre'] != '' and request.data['precio'] != '':
+            if request.data['nombre'] != '' and request.data['descripcion'] != '':
                 serializer.save()
+                ingredient = Ingredient.objects.last()
+                data = {'id': ingredient.id}
+                data.update(serializer.data)
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response('Input inválido', status=status.HTTP_400_BAD_REQUEST)
@@ -125,13 +128,27 @@ def burguer_detail(request, id):
 
     else:
         data_update = request.data
+
         try:
             burguer_object = Burguer.objects.get(id=id)
+
+            for key in data_update:
+                if key not in ['nombre', 'precio', 'descripcion', 'imagen']:
+                    return Response('Parámetros inválidos', status=status.HTTP_400_BAD_REQUEST)
+
             serializer = BurguerSerializer(burguer_object, data=request.data, partial=True)
-            if serializer.is_valid() and id == data_update['id']:
+            if serializer.is_valid():
                 serializer.save()
-                data = {'id': id}
+
+
+                if serializer.data['ingredientes']:
+                    counter = 0
+                    for ingredient_id in serializer.data['ingredientes']:
+                        serializer.data['ingredientes'][counter] = {'path': 'https://hamburgueseria.com/ingrediente/{}'.format(ingredient_id)}
+                        counter += 1
+                data = {'id': burguer_object.id}
                 data.update(serializer.data)
+
                 return Response(data, status=status.HTTP_200_OK)
             else:
                 return Response('Parámetros inválidos', status=status.HTTP_400_BAD_REQUEST)
