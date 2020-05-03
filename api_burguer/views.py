@@ -138,3 +138,74 @@ def burguer_detail(request, id):
 
         except Burguer.DoesNotExist:
             return Response('Hamburguesa inexistente', status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['DELETE', 'PUT'])
+def burguer_and_ingredients(request, id, ing_id):
+
+    try:
+        int(id)
+
+    except:
+        return Response("ID de hamburguesa inválido", status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        int(ing_id)
+
+    except:
+        return Response("ID de ingrediente inválido", status=status.HTTP_400_BAD_REQUEST)
+
+    if request.method == 'DELETE':
+
+        try:
+            burguer = Burguer.objects.get(id=id)
+            serializer = BurguerSerializer(burguer)
+
+            if int(ing_id) in serializer.data['ingredientes']:
+                try:
+                    ingrediente = Ingredient.objects.get(id=ing_id)
+                    burguer.ingredientes.remove(ingrediente)
+                    new_serializer = BurguerSerializer(burguer)
+
+                    counter = 0
+                    for ingredient_id in new_serializer.data['ingredientes']:
+                        new_serializer.data['ingredientes'][counter] = {'path': 'https://hamburgueseria.com/ingrediente/{}'.format(ingredient_id)}
+                        counter += 1
+                    data = {'id': burguer.id}
+                    data.update(new_serializer.data)
+
+                    return Response(data, status=status.HTTP_200_OK)
+
+                except Ingredient.DoesNotExist:
+                    return Response("Ingrediente inexistente en la hamburguesa", status=status.HTTP_404_NOT_FOUND)
+            else:
+                return Response('Ingrediente inexistente en la hamburguesa', status=status.HTTP_404_NOT_FOUND)
+
+        except Burguer.DoesNotExist:
+            return Response("ID de hamburguesa inválido", status=status.HTTP_400_BAD_REQUEST)
+
+    else:
+
+        try:
+            burguer = Burguer.objects.get(id=id)
+            serializer = BurguerSerializer(burguer)
+            serializer.data['ingredientes']
+
+            try:
+                ingrediente = Ingredient.objects.get(id=ing_id)
+                burguer.ingredientes.add(ingrediente)
+                new_serializer = BurguerSerializer(burguer)
+
+                counter = 0
+                for ingredient_id in new_serializer.data['ingredientes']:
+                    new_serializer.data['ingredientes'][counter] = {'path': 'https://hamburgueseria.com/ingrediente/{}'.format(ingredient_id)}
+                    counter += 1
+                data = {'id': burguer.id}
+                data.update(new_serializer.data)
+
+                return Response(data, status=status.HTTP_200_OK)
+
+            except Ingredient.DoesNotExist:
+                return Response("Ingrediente inexistente", status=status.HTTP_404_NOT_FOUND)
+
+        except Burguer.DoesNotExist:
+            return Response("ID de hamburguesa inválido", status=status.HTTP_400_BAD_REQUEST)
