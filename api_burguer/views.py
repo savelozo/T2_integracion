@@ -35,7 +35,10 @@ def ingredient_detail(request, id):
         int(id)
 
     except:
-        return Response("ID inválido", status=status.HTTP_400_BAD_REQUEST)
+        if request.method == 'GET':
+            return Response("ID inválido", status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response('Ingrediente inexistente', status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
 
@@ -98,7 +101,12 @@ def burguer_detail(request, id):
         int(id)
 
     except:
-        return Response("ID inválido", status=status.HTTP_400_BAD_REQUEST)
+        if request.method == 'GET':
+            return Response("ID inválido", status=status.HTTP_400_BAD_REQUEST)
+        elif request.method == 'DELETE':
+            return Response('Hamburguesa inexistente', status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response('Parámetros inválidos', status=status.HTTP_400_BAD_REQUEST)
 
     if request.method == 'GET':
 
