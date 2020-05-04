@@ -198,7 +198,7 @@ def burguer_and_ingredients(request, id, ing_id):
                     data = {'id': burguer.id}
                     data.update(new_serializer.data)
 
-                    return Response(data, status=status.HTTP_200_OK)
+                    return Response('Ingrediente retirado', status=status.HTTP_200_OK)
 
                 except Ingredient.DoesNotExist:
                     return Response("Ingrediente inexistente en la hamburguesa", status=status.HTTP_404_NOT_FOUND)
@@ -227,7 +227,7 @@ def burguer_and_ingredients(request, id, ing_id):
                 data = {'id': burguer.id}
                 data.update(new_serializer.data)
 
-                return Response(data, status=status.HTTP_201_CREATED)
+                return Response('Ingrediente agregado', status=status.HTTP_201_CREATED)
 
             except Ingredient.DoesNotExist:
                 return Response("Ingrediente inexistente", status=status.HTTP_404_NOT_FOUND)
