@@ -75,7 +75,7 @@ def burguer_list(request):
         for burguer_data in serializer.data:
             counter = 0
             for ingredient_id in burguer_data['ingredientes']:
-                burguer_data['ingredientes'][counter] = {'path': 'https://hamburgueseria.com/ingrediente/{}'.format(ingredient_id)}
+                burguer_data['ingredientes'][counter] = {'path': 'https://morning-fjord-17437.herokuapp.com/ingrediente/{}'.format(ingredient_id)}
                 counter += 1
 
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -115,7 +115,7 @@ def burguer_detail(request, id):
             serializer = BurguerSerializer(burguer)
             counter = 0
             for ingredient_id in serializer.data['ingredientes']:
-                serializer.data['ingredientes'][counter] = {'path': 'https://hamburgueseria.com/ingrediente/{}'.format(ingredient_id)}
+                serializer.data['ingredientes'][counter] = {'path': 'https://morning-fjord-17437.herokuapp.com/ingrediente/{}'.format(ingredient_id)}
                 counter += 1
             data = {'id': burguer.id}
             data.update(serializer.data)
@@ -151,7 +151,7 @@ def burguer_detail(request, id):
                 if serializer.data['ingredientes']:
                     counter = 0
                     for ingredient_id in serializer.data['ingredientes']:
-                        serializer.data['ingredientes'][counter] = {'path': 'https://hamburgueseria.com/ingrediente/{}'.format(ingredient_id)}
+                        serializer.data['ingredientes'][counter] = {'path': 'https://morning-fjord-17437.herokuapp.com/ingrediente/{}'.format(ingredient_id)}
                         counter += 1
 
                 data = {'id': burguer_object.id}
@@ -193,7 +193,7 @@ def burguer_and_ingredients(request, id, ing_id):
 
                     counter = 0
                     for ingredient_id in new_serializer.data['ingredientes']:
-                        new_serializer.data['ingredientes'][counter] = {'path': 'https://hamburgueseria.com/ingrediente/{}'.format(ingredient_id)}
+                        new_serializer.data['ingredientes'][counter] = {'path': 'https://morning-fjord-17437.herokuapp.com/ingrediente/{}'.format(ingredient_id)}
                         counter += 1
                     data = {'id': burguer.id}
                     data.update(new_serializer.data)
@@ -222,7 +222,7 @@ def burguer_and_ingredients(request, id, ing_id):
 
                 counter = 0
                 for ingredient_id in new_serializer.data['ingredientes']:
-                    new_serializer.data['ingredientes'][counter] = {'path': 'https://hamburgueseria.com/ingrediente/{}'.format(ingredient_id)}
+                    new_serializer.data['ingredientes'][counter] = {'path': 'https://morning-fjord-17437.herokuapp.com/ingrediente/{}'.format(ingredient_id)}
                     counter += 1
                 data = {'id': burguer.id}
                 data.update(new_serializer.data)
